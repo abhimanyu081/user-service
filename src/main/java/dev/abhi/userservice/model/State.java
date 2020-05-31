@@ -12,8 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "state")
+@Indexed
 public class State {
 
 	@Id
@@ -22,10 +28,15 @@ public class State {
 	private Integer id;
 	
 	@Column(name = "name")
+	@Field
 	private String name;
 
+	/*
+	 * @OneToMany(mappedBy = "state") private Set<District> districts;
+	 */
+	@JsonBackReference
 	@OneToMany(mappedBy = "state")
-	private Set<District> districts;
+	private Set<City> cities;
 
 	/**
 	 * 
@@ -41,13 +52,12 @@ public class State {
 	@JoinColumn(name = "country_id", nullable = false)
 	private Country country;
 
-	public Set<District> getDistricts() {
-		return districts;
-	}
-
-	public void setDistricts(Set<District> districts) {
-		this.districts = districts;
-	}
+	/*
+	 * public Set<District> getDistricts() { return districts; }
+	 * 
+	 * public void setDistricts(Set<District> districts) { this.districts =
+	 * districts; }
+	 */
 
 	public Country getCountry() {
 		return country;
@@ -67,6 +77,14 @@ public class State {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Set<City> getCities() {
+		return cities;
+	}
+
+	public void setCities(Set<City> cities) {
+		this.cities = cities;
 	}
 
 	

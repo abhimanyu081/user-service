@@ -9,8 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "city")
+@Indexed
 public class City {
 
 	@Id
@@ -18,11 +24,13 @@ public class City {
 	@Column(name = "id")
 	private Integer id;
 
+	@Field
 	private String cityName;
 
 	@ManyToOne
-	@JoinColumn(name = "district_id", nullable = false)
-	private District district;
+	@JoinColumn(name = "state_id", nullable = false)
+	@JsonManagedReference
+	private State state;
 
 	public String getCityName() {
 		return cityName;
@@ -31,17 +39,18 @@ public class City {
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
 	}
-
-	public District getDistrict() {
-		return district;
-	}
-
-	public void setDistrict(District district) {
-		this.district = district;
-	}
-
+	
 	public Integer getId() {
 		return id;
 	}
 
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	
 }
